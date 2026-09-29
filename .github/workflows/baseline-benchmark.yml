@@ -12,8 +12,10 @@ jobs:
       - name: Install Rust toolchain
         run: rustup show
 
-      - name: Install protoc
-        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler cmake gfortran libopenblas-dev pkg-config
 
-      - name: Build risingwave_common_estimate_size
-        run: time cargo build --release -p risingwave_common_estimate_size
+      - name: Build risingwave_common
+        run: time cargo build --release -p risingwave_common
