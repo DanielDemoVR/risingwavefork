@@ -1,0 +1,28 @@
+name: sccache Benchmark (Avrea)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: avrea-ubuntu-latest-8-vcpu
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        run: rustup show
+
+      - name: Install sccache
+        run: |
+          curl -L https://github.com/mozilla/sccache/releases/latest/download/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz | tar xz
+          sudo mv sccache-v0.8.2-x86_64-unknown-linux-musl/sccache /usr/local/bin/
+
+      - name: Configure sccache
+        run: |
+          echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV
+          echo "SCCACHE_DIR=$HOME/.cache/sccache" >> $GITHUB_ENV
+
+      - name: Build risingwave_common
+        run: |
+          time cargo build -p risingwave_common
+          sccache --show-stats
