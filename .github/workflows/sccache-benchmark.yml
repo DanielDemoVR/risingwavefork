@@ -21,7 +21,7 @@ jobs:
       - name: Configure sccache
         run: echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV
 
-      - name: Build risingwave_common
+      - name: Build risingwave_common_estimate_size
         run: |
-          time cargo build -p risingwave_common
+          time cargo build -p risingwave_common_estimate_size
           sccache --show-stats
