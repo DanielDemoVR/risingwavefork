@@ -23,5 +23,5 @@ jobs:
 
       - name: Build risingwave_common_estimate_size
         run: |
-          time cargo build -p risingwave_common_estimate_size
+          time cargo build --release -p risingwave_common_estimate_size
           sccache --show-stats
